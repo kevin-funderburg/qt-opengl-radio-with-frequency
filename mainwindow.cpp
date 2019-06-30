@@ -4,8 +4,10 @@
 */
 
 #include <QtGui>
+#include <QDebug>
 #include "radio.h"
 #include "globj.h"
+#include "signal.h"
 #include "mainwindow.h"
 
 
@@ -94,7 +96,42 @@ void MainWindow::createMenus()
 
 void MainWindow::loadFile()
 {
+    QFile file("./S2.txt");
+    if (!file.open(QFile::ReadWrite | QFile::Text)) {
+        QMessageBox::warning(this, tr("Stored Signal"),
+                             tr("Cannot open file %1:\n%2.")
+                                     .arg("./S2.txt")
+                                     .arg(file.errorString()));
+        return;
+    }
+    QTextStream in(&file);
+    QString str;
+    QString line;
+    QStringList minmaxlist, yvalues;
+    while(!in.atEnd())
+    {
+        line = in.readLine();    
+        if (! line.contains("S2") || line.contains("#"))
+        {
+            qDebug() << "line length " << line.length();
+            if (line.length() <= 5)
+                minmaxlist = line.split(" ");
+            else
+                yvalues = line.split(" ");
+        }
+    }
+    int minmax[minmaxlist.length()];
+    int ys[yvalues.length()];
 
+    for(int i = 0; i < minmaxlist.length(); i++)
+        minmax[i] = minmaxlist[i].toInt();
+    for(int i = 0; i < yvalues.length(); i++)
+       ys[i] = yvalues[i].toInt();
+
+    qDebug() << minmaxlist.length();
+    qDebug() << yvalues.length();
+    signal = new Signal(this);
+    signal->setvals(minmax[0], minmax[1], ys);
 }
 //
 // Save the current text in the text area to a file
@@ -142,9 +179,33 @@ void MainWindow::open()
     //    return;
     //}
 
-    //QString str;
-    //QTextStream in(&file);
-    //str = in.readAll();
+//    QFile file("./S2.txt");
+//    if (!file.open(QFile::ReadWrite | QFile::Text)) {
+//        QMessageBox::warning(this, tr("Stored Signal"),
+//                             tr("Cannot open file %1:\n%2.")
+//                                     .arg(fileName)
+//                                     .arg(file.errorString()));
+//        return;
+//    }
+//    QTextStream in(&file);
+//    QString str;
+//    QStringList minmax, yvalues;
+//    //str = in.readAll();
+//    while(!in.atEnd()) {
+//        QString line = in.readLine();    
+//        if !(line.contains("S2") || line.contains("#")
+//        {
+//           if (line.length() = 3)
+//                minmax = line.split(" ");
+//           else
+//                yvalues = line.split(" ");
+//                 
+//        }
+//        QStringList fields = line.split(",");    
+//        model->appendRow(fields);    
+//    }
+//
+    //file.close();
 
     //QApplication::setOverrideCursor(Qt::WaitCursor);
     //// Set contents of textEdit to contents of chosen file
@@ -176,10 +237,8 @@ void MainWindow::createStatusBar() { statusBar()->showMessage(tr("Ready")); }
 // created previously
 void MainWindow::createDockWindows()
 {
-    int MIN_WIDTH = 400,
-        MIN_HEIGHT = 200;
-
-   //QSize MIN_WIDTH, MIN_HEIGHT;
+    int MIN_WIDTH = 300,
+        MIN_HEIGHT = 300;
 
     QDockWidget *dock = new QDockWidget(tr("shapes"), this);
     dock->setAllowedAreas(Qt::AllDockWidgetAreas);
@@ -188,10 +247,12 @@ void MainWindow::createDockWindows()
     dock->setWidget(globj);
     addDockWidget(Qt::RightDockWidgetArea, dock);
 
+    loadFile();
+    //QWidget *signal = new Signal(this);
     dock = new QDockWidget(tr("wave"), this);
     dock->setMinimumWidth(MIN_WIDTH);
     dock->setMinimumHeight(MIN_HEIGHT);
-    dock->setWidget(globj);
+    dock->setWidget(signal);
     addDockWidget(Qt::RightDockWidgetArea, dock);
 
     dock = new QDockWidget(tr("fractal"), this);

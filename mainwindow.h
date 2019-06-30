@@ -1,8 +1,9 @@
-/*
-
- Author: Kevin Funderburg
-
-*/
+/**
+* 
+*  Author:   Kevin Funderburg
+*  File:     mainwindow.cpp
+* 
+**/
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -16,6 +17,7 @@ class QMenu;
 class QTextEdit;
 
 class GLobj;
+class Signal;
 
 class MainWindow : public QMainWindow
 {
@@ -25,7 +27,8 @@ public:
     MainWindow();
 
     GLobj *globj;
-    //GLobj *globj2;
+    //GLobj *signal;
+    Signal *signal;
 
 private slots:
     //void save();

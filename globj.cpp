@@ -1,8 +1,11 @@
-/*
-    Kevin Funderburg
-    GUI - Summer 2019 - Texas State University
-    Inroduction to OpenGL
-*/
+/***
+*
+*   Author: Kevin Funderburg
+*   File:   globj.cpp
+*   
+*   GUI - Summer 2019 - Texas State University
+*
+***/
 
 #include <QtGui/QtGui>
 #include <QtOpenGL/QtOpenGL>
@@ -59,7 +62,6 @@ void GLobj::ngon(int n)
 void GLobj::paintShapes()
 {   
     float radius = 0.5;
-    float rot[] = {-45, 0, 1, 1};
 
     glLoadIdentity();
 
@@ -188,38 +190,42 @@ void GLobj::paintShapes()
     glTranslatef(-2.5, 3.5, 0);
     glRotatef(45, 0, 1, 1);
     glBegin(GL_QUADS);
-        // Set The Color To Green
-        glColor3f(0.0f,1.0f,0.0f);         
+        
+        glColor3f(0.2f, 0.2f, 0.2f); // Dark Gray
         glVertex3f( 1.0f, 1.0f,-1.0f);     
+        glColor3f(0.0f,1.0f,0.0f); // Green
         glVertex3f(-1.0f, 1.0f,-1.0f);     
         glVertex3f(-1.0f, 1.0f, 1.0f);     
+        glColor3f(0.2f, 0.2f, 0.2f); // Dark Gray
         glVertex3f( 1.0f, 1.0f, 1.0f);     
-        // Set The Color To Orange
-        glColor3f(1.0f,0.5f,0.0f);         
+
+        glColor3f(1.0f,0.5f,0.0f); //Orange
         glVertex3f( 1.0f,-1.0f, 1.0f);    
         glVertex3f(-1.0f,-1.0f, 1.0f);    
         glVertex3f(-1.0f,-1.0f,-1.0f);    
         glVertex3f( 1.0f,-1.0f,-1.0f);    
-        // Set The Color To Red
-        glColor3f(1.0f,0.0f,0.0f);         
+        
+        glColor3f(0.2f, 0.2f, 0.2f); // Dark Gray
         glVertex3f( 1.0f, 1.0f, 1.0f);   
+        glColor3f(1.0f,0.0f,0.0f); // Red
         glVertex3f(-1.0f, 1.0f, 1.0f);   
         glVertex3f(-1.0f,-1.0f, 1.0f);   
+        glColor3f(0.2f, 0.2f, 0.2f); // Dark Gray
         glVertex3f( 1.0f,-1.0f, 1.0f);   
-        // Set The Color To Yellow
-        glColor3f (1.0f,1.0f,0.0f);        
+
+        glColor3f (1.0f,1.0f,0.0f); // Yellow
         glVertex3f( 1.0f,-1.0f,-1.0f);     
         glVertex3f(-1.0f,-1.0f,-1.0f);     
         glVertex3f(-1.0f, 1.0f,-1.0f);     
         glVertex3f( 1.0f, 1.0f,-1.0f);     
-        // Set The Color To Blue
-        glColor3f(0.0f,0.0f,1.0f);         
+
+        glColor3f(0.0f,0.0f,1.0f); // Blue
         glVertex3f(-1.0f, 1.0f, 1.0f);    
         glVertex3f(-1.0f, 1.0f,-1.0f);    
         glVertex3f(-1.0f,-1.0f,-1.0f);    
         glVertex3f(-1.0f,-1.0f, 1.0f);    
-         // Set The Color To Violet
-        glColor3f(1.0f,0.0f,1.0f);        
+
+        glColor3f(1.0f,0.0f,1.0f); //Violet      
         glVertex3f( 1.0f, 1.0f,-1.0f);     
         glVertex3f( 1.0f, 1.0f, 1.0f);     
         glVertex3f( 1.0f,-1.0f, 1.0f);     

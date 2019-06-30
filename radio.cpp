@@ -1,4 +1,9 @@
-//***************************************
+/**
+*
+*   Author: Kevin Funderburg
+*   File:   radio.cpp
+*
+**/
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QSlider>

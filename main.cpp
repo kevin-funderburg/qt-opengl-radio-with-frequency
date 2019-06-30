@@ -1,7 +1,9 @@
-/*
-
- Author: Daniel Palmer
-*/
+/***
+*
+*   Author: Kevin Funderburg 
+*   File:   main.cpp
+*
+***/
 
 #include <QApplication>
 #include <QDesktopWidget>
