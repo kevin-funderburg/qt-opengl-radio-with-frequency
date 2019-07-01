@@ -56,7 +56,7 @@ void Signal::resizeGL( int w, int h )
     //setup the projection and switch to model view for transformations
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0, 5.0, 0, MAX_Y, -5.0, 5.0);
+    glOrtho(1, 5.0, 0, MAX_Y, -5.0, 5.0);
     glMatrixMode(GL_MODELVIEW);
 
     //implicit call to paintGL after resized

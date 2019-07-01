@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'globj.h'
 **
-** Created: Sun Jun 30 17:45:50 2019
+** Created: Sun Jun 30 22:59:36 2019
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.4)
 **
 ** WARNING! All changes made in this file will be lost!

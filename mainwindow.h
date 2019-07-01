@@ -27,12 +27,9 @@ public:
     MainWindow();
 
     GLobj *globj;
-    //GLobj *signal;
     Signal *signal;
 
 private slots:
-    //void save();
-    void open();
     void loadFile();
     void undo();
     void about();
@@ -43,10 +40,6 @@ private:
     void createStatusBar();
     void createDockWindows();
 
-    //QTextEdit *textEdit;
-    //QListWidget *customerList;
-    //QListWidget *paragraphsList;
-
     QMenu *fileMenu;
     QMenu *editMenu;
     QMenu *viewMenu;
@@ -54,8 +47,6 @@ private:
     QToolBar *fileToolBar;
     QToolBar *editToolBar;
     QAction *loadAct;
-    QAction *openAct;
-    QAction *saveAct;
     QAction *undoAct;
     QAction *aboutAct;
     QAction *aboutQtAct;

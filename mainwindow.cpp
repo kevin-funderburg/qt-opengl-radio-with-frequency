@@ -1,10 +1,13 @@
-/*
-
- Author: Kevin Funderburg 
-*/
+/***
+*
+*   Author: Kevin Funderburg 
+*   File: mainwindow.cpp
+*
+***/
 
 #include <QtGui>
 #include <QDebug>
+#include <GL/glut.h>
 #include "radio.h"
 #include "globj.h"
 #include "signal.h"
@@ -22,14 +25,10 @@ MainWindow::MainWindow()
     createMenus();       // Add the actions to the menus
     createStatusBar();   // Add status bar
 
-    //addDockWidget(Qt::RightDockWidgetArea, radio);
-    //addDockWidget(Qt::RightDockWidgetArea, globj);
-    // Create dock widget area populated with Radio class
-    // created previously
-    createDockWindows();
+    createDockWindows(); // Create and fill windows 
 
-    setWindowTitle(tr("Hello QGL"));
-    //setUnifiedTitleAndToolBarOnMac(true);
+    setWindowTitle(tr("My QGL"));
+    setUnifiedTitleAndToolBarOnMac(true);
 }
 
 
@@ -42,16 +41,6 @@ void MainWindow::createActions()
     loadAct->setShortcuts(QKeySequence::New);
     loadAct->setStatusTip(tr("Create a new form letter"));
     connect(loadAct, SIGNAL(triggered()), this, SLOT(loadFile()));
-
-    saveAct = new QAction(tr("&Save..."), this);
-    saveAct->setShortcuts(QKeySequence::Save);
-    saveAct->setStatusTip(tr("Save the current form letter"));
-    connect(saveAct, SIGNAL(triggered()), this, SLOT(save()));
-
-    openAct = new QAction(tr("&Open..."), this);
-    openAct->setShortcuts(QKeySequence::Open);
-    openAct->setStatusTip(tr("Open a text file"));
-    connect(openAct, SIGNAL(triggered()), this, SLOT(open()));
 
     undoAct = new QAction(tr("&Undo..."), this);
     undoAct->setShortcuts(QKeySequence::Undo);
@@ -77,8 +66,6 @@ void MainWindow::createMenus()
     // Instantiate the menu bars with their respective actions
     fileMenu = menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(loadAct);
-    fileMenu->addAction(openAct);
-    fileMenu->addAction(saveAct);
     fileMenu->addSeparator();
     fileMenu->addAction(quitAct);
 
@@ -105,8 +92,7 @@ void MainWindow::loadFile()
         return;
     }
     QTextStream in(&file);
-    QString str;
-    QString line;
+    QString str, line;
     QStringList minmaxlist, yvalues;
     while(!in.atEnd())
     {
@@ -133,87 +119,6 @@ void MainWindow::loadFile()
     signal = new Signal(this);
     signal->setvals(minmax[0], minmax[1], ys);
 }
-//
-// Save the current text in the text area to a file
-//void MainWindow::save()
-//{
-//    QString fileName = QFileDialog::getSaveFileName(this,
-//                                                    tr("Choose a file name"), ".",
-//                                                    tr("Text files (*.txt)"));
-//    if (fileName.isEmpty())
-//        return;
-//    QFile file(fileName);
-//    if (!file.open(QFile::WriteOnly | QFile::Text)) {
-//        QMessageBox::warning(this, tr("Dock Widgets"),
-//                             tr("Cannot write file %1:\n%2.")
-//                                     .arg(fileName)
-//                                     .arg(file.errorString()));
-//        return;
-//    }
-//
-//    // load the file into the QTextStream
-//    QTextStream out(&file);
-//    // Set the str to the textEdit's contents
-//    QString str = textEdit->toPlainText();
-//    QApplication::setOverrideCursor(Qt::WaitCursor);
-//    // Write str to the output file
-//    out << str;
-//    QApplication::restoreOverrideCursor();
-//
-//    statusBar()->showMessage(tr("Saved '%1'").arg(fileName), 2000);
-//}
-
-void MainWindow::open()
-{
-    //QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), ".",
-    //                                                tr("Text files (*.txt)"));
-    //// Ensure file is exists and is editable
-    //if (fileName.isEmpty())
-    //    return;
-    //QFile file(fileName);
-    //if (!file.open(QFile::ReadWrite | QFile::Text)) {
-    //    QMessageBox::warning(this, tr("Dock Widgets"),
-    //                         tr("Cannot open file %1:\n%2.")
-    //                                 .arg(fileName)
-    //                                 .arg(file.errorString()));
-    //    return;
-    //}
-
-//    QFile file("./S2.txt");
-//    if (!file.open(QFile::ReadWrite | QFile::Text)) {
-//        QMessageBox::warning(this, tr("Stored Signal"),
-//                             tr("Cannot open file %1:\n%2.")
-//                                     .arg(fileName)
-//                                     .arg(file.errorString()));
-//        return;
-//    }
-//    QTextStream in(&file);
-//    QString str;
-//    QStringList minmax, yvalues;
-//    //str = in.readAll();
-//    while(!in.atEnd()) {
-//        QString line = in.readLine();    
-//        if !(line.contains("S2") || line.contains("#")
-//        {
-//           if (line.length() = 3)
-//                minmax = line.split(" ");
-//           else
-//                yvalues = line.split(" ");
-//                 
-//        }
-//        QStringList fields = line.split(",");    
-//        model->appendRow(fields);    
-//    }
-//
-    //file.close();
-
-    //QApplication::setOverrideCursor(Qt::WaitCursor);
-    //// Set contents of textEdit to contents of chosen file
-    //textEdit->setPlainText(str);
-    //QApplication::restoreOverrideCursor();
-
-    //statusBar()->showMessage(tr("Opening '%1'").arg(fileName), 2000);
-}
 
 void MainWindow::undo()
 {
@@ -233,8 +138,6 @@ void MainWindow::about()
 
 void MainWindow::createStatusBar() { statusBar()->showMessage(tr("Ready")); }
 
-// Creates dock widget object that loads the Radio widget
-// created previously
 void MainWindow::createDockWindows()
 {
     int MIN_WIDTH = 300,
@@ -248,7 +151,6 @@ void MainWindow::createDockWindows()
     addDockWidget(Qt::RightDockWidgetArea, dock);
 
     loadFile();
-    //QWidget *signal = new Signal(this);
     dock = new QDockWidget(tr("wave"), this);
     dock->setMinimumWidth(MIN_WIDTH);
     dock->setMinimumHeight(MIN_HEIGHT);
@@ -260,6 +162,13 @@ void MainWindow::createDockWindows()
     dock->setMinimumHeight(MIN_HEIGHT);
     dock->setWidget(globj);
     addDockWidget(Qt::LeftDockWidgetArea, dock);
+
+    dock = new QDockWidget(tr("frequency"), this);
+    dock->setMinimumWidth(MIN_WIDTH);
+    dock->setMinimumHeight(MIN_HEIGHT);
+    dock->setWidget(globj);
+    addDockWidget(Qt::LeftDockWidgetArea, dock);
+
 
 //    addDockWidget(Qt::LeftDockWidgetArea, dock);
 //    addDockWidget(Qt::TopDockWidgetArea, dock);

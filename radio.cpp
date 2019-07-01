@@ -22,7 +22,7 @@
 LCDRange::LCDRange(QWidget *parent)
         : QWidget(parent)
 {
-    QLCDNumber *lcd = new QLCDNumber(2);
+    QLCDNumber *lcd = new QLCDNumber(3);
     lcd->setSegmentStyle(QLCDNumber::Flat);
 
     slider = new QSlider(Qt::Horizontal);
@@ -47,7 +47,7 @@ void LCDRange::setValue(int value) { slider->setValue(value); }
 
 void LCDRange::setRange(int minValue, int maxValue)
 {
-    if (minValue < 0 || maxValue > 99 || minValue > maxValue) {
+    if (minValue < 0 || maxValue > 100 || minValue > maxValue) {
         qWarning("LCDRange::setRange(%d, %d)\n"
                  "\tRange must be 0..99\n"
                  "\tand minValue must not be greater than maxValue",
@@ -62,7 +62,7 @@ DialRange::DialRange(QWidget *parent)
     : QWidget(parent)
 {
     QLCDNumber *lcd = new QLCDNumber(2);
-    lcd->setSegmentStyle(QLCDNumber::Filled);
+    lcd->setSegmentStyle(QLCDNumber::Flat);
 
     QDial *dial = new QDial;
     dial->setNotchesVisible(true);
@@ -92,15 +92,17 @@ Radio::Radio(QWidget *parent)
     connect(quit, SIGNAL(clicked()), qApp, SLOT(quit()));
 
     LCDRange *frequency = new LCDRange;
-    frequency->setRange(0,99);
+    frequency->setRange(1,100);
     frequency->setValue(45);
     LCDRange *volume = new LCDRange;
-    volume->setRange(0,99);
-    volume->setValue(75);
+    volume->setRange(0,5);
+    volume->setValue(4);
 
     QRadioButton *fm = new QRadioButton("FM");
     QRadioButton *am = new QRadioButton("AM");
+    am->toggle();
     QGridLayout *grid = new QGridLayout;
+    grid->setVerticalSpacing(2);
     // Iteratively add the widgets into desired locations
     for (int row = 0; row < 3; ++row) {
         for (int column = 0; column < 3; ++column) {
@@ -125,6 +127,7 @@ Radio::Radio(QWidget *parent)
                         case 2: txt = "Treble"; break;
                     }
                     QLabel *lbl = new QLabel(txt);
+                    lbl->setIndent(20-txt.length());
                     grid->addWidget(lbl, row, column);
                 }
                 default: break;
@@ -133,7 +136,9 @@ Radio::Radio(QWidget *parent)
     }
     // Add labels to the sliders so you can tell which slider does what
     QLabel *freqLbl = new QLabel("Frequency");
+    freqLbl->setIndent(70);
     QLabel *volLbl = new QLabel("Volume");
+    volLbl->setIndent(80);
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(quit);
