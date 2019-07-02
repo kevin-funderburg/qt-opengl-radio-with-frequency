@@ -1,50 +1,45 @@
 /***
 *
 *   Author: Kevin Funderburg
-*   File:   signal.cpp
-*   GUI - Summer 2019 - Texas State University
+*   File:   freqency.cpp 
 *
 ***/
 
 #include <QtGui/QtGui>
 #include <QtOpenGL/QtOpenGL>
 #include <QDebug>
+//#include <QtMath>
+#include <QtCore/qmath.h>
 #include <math.h>
-#include "signal.h"
 
-Signal::Signal(QWidget *parent)
+#include "frequency.h"
+#define PI 3.14159265
+
+Frequency::Frequency(QWidget *parent)
     : QGLWidget(parent)
 {
 
 }
 
-Signal::~Signal()
+Frequency::~Frequency()
 {
 
-}
-
-void Signal::setvals(int min, int max, int yvals[])
-{
-    MIN_Y = min;
-    MAX_Y = max;
-    for(int i = 0; i < 5; i++)
-        ys[i] = yvals[i];
 }
 
 //Initialize the GL settings
-void Signal::initializeGL()
+void Frequency::initializeGL()
 {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClearDepth(1.0f);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
-    glLineWidth(4.0);
+    glLineWidth(2.0);
     glPointSize(2.0);
 }
 
 //Set up the viewport based on the screen dimentions
 //Function is called implicitly by initializeGL and when screen is resized
-void Signal::resizeGL( int w, int h )
+void Frequency::resizeGL( int w, int h )
 {
     //algorithm to keep scene "square" (preserve aspect ratio)
     //even if screen is streached
@@ -56,25 +51,36 @@ void Signal::resizeGL( int w, int h )
     //setup the projection and switch to model view for transformations
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(1, 5.0, 0, MAX_Y, -5.0, 5.0);
+    glOrtho(0.0, 100.0, -7.0, 7.0, -5.0, 5.0);
     glMatrixMode(GL_MODELVIEW);
 
     //implicit call to paintGL after resized
 }
 
-void Signal::draw()
+
+void Frequency::draw()
 {   
+    int f = 25, //frequency of radio station
+        v = 5,  //volume 
+        t = 1;
+    double y; 
+
     glLoadIdentity();
     glBegin(GL_LINE_STRIP);
-        glColor3f ( 2.0, 0.5, 1.0); // Pink 
-        for(int n = 0; n < 5; n++)
-            glVertex2f(sqrt(ys[n]), ys[n]);
-    glEnd();     
+        glColor3f(2.0, 0.5, 1.0);
+        for(double x = 0; x < f*5; x += 0.05) {
+            y = double(v) * cos((2*M_PI) * (1/double(f)) * x);
+            qDebug() << x << " , " << y;
+            glColor3f(0, x, y);
+            glVertex2f(x, y);
+        }
+    glEnd();
+
 }
 
 
 //Paints the GL scene
-void Signal::paintGL()
+void Frequency::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

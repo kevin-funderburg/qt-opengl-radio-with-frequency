@@ -40,10 +40,16 @@ LCDRange::LCDRange(QWidget *parent)
 }
 
 // Public function to get the value of a LCD/slider combo
-int LCDRange::value() const { return slider->value(); }
+int LCDRange::value() const 
+{ 
+    return slider->value();
+}
 
 // Public function to adjust the value of a LCD/slider combo
-void LCDRange::setValue(int value) { slider->setValue(value); }
+void LCDRange::setValue(int value)
+{
+    slider->setValue(value);
+}
 
 void LCDRange::setRange(int minValue, int maxValue)
 {

@@ -28,7 +28,6 @@ protected:
     void resizeGL(int w, int h);
     void paintGL();
     void draw();
-    void ngon(int n);
 };
 
 #endif

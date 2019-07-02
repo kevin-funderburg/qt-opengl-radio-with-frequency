@@ -14,9 +14,9 @@
 class QAction;
 class QListWidget;
 class QMenu;
-class QTextEdit;
 
 class GLobj;
+class Frequency;
 class Signal;
 
 class MainWindow : public QMainWindow
@@ -28,6 +28,7 @@ public:
 
     GLobj *globj;
     Signal *signal;
+	Frequency *frequency;
 
 private slots:
     void loadFile();

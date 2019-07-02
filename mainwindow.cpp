@@ -8,8 +8,10 @@
 #include <QtGui>
 #include <QDebug>
 #include <GL/glut.h>
-#include "radio.h"
+
+#include "frequency.h"
 #include "globj.h"
+#include "radio.h"
 #include "signal.h"
 #include "mainwindow.h"
 
@@ -17,6 +19,7 @@
 MainWindow::MainWindow()
 {
     globj = new GLobj(this);
+    frequency = new Frequency(this);
 
     QWidget *radio = new Radio;
     setCentralWidget(radio);
@@ -112,10 +115,10 @@ void MainWindow::loadFile()
     for(int i = 0; i < minmaxlist.length(); i++)
         minmax[i] = minmaxlist[i].toInt();
     for(int i = 0; i < yvalues.length(); i++)
-       ys[i] = yvalues[i].toInt();
+        ys[i] = yvalues[i].toInt();
 
-    qDebug() << minmaxlist.length();
-    qDebug() << yvalues.length();
+    //qDebug() << minmaxlist.length();
+    //qDebug() << yvalues.length();
     signal = new Signal(this);
     signal->setvals(minmax[0], minmax[1], ys);
 }
@@ -166,7 +169,7 @@ void MainWindow::createDockWindows()
     dock = new QDockWidget(tr("frequency"), this);
     dock->setMinimumWidth(MIN_WIDTH);
     dock->setMinimumHeight(MIN_HEIGHT);
-    dock->setWidget(globj);
+    dock->setWidget(frequency);
     addDockWidget(Qt::LeftDockWidgetArea, dock);
 
 
