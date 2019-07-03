@@ -12,12 +12,13 @@
 #include <QCheckBox>
 
 class QAction;
-class QListWidget;
 class QMenu;
 
 class GLobj;
 class Frequency;
+class Fractal;
 class Signal;
+class Radio;
 
 class MainWindow : public QMainWindow
 {
@@ -28,12 +29,15 @@ public:
 
     GLobj *globj;
     Signal *signal;
+	Fractal *fractal;
 	Frequency *frequency;
+	Radio *radio;
 
 private slots:
     void loadFile();
-    void undo();
     void about();
+	void updateFreq(int);
+	void updateVol(int);
 
 private:
     void createActions();
@@ -48,7 +52,6 @@ private:
     QToolBar *fileToolBar;
     QToolBar *editToolBar;
     QAction *loadAct;
-    QAction *undoAct;
     QAction *aboutAct;
     QAction *aboutQtAct;
     QAction *quitAct;

@@ -1,8 +1,9 @@
-/*
-
- Author: Daniel Palmer
-
-*/
+/***
+*
+*    Author:    Kevin Funderburg
+*   File: globj.h
+*
+***/
 
 #ifndef GLobj_H
 #define GLobj_H
@@ -21,7 +22,6 @@ protected:
     void resizeGL(int w, int h);
     void paintGL();
     void paintShapes();
-    void ngon(int n);
 };
 
 #endif

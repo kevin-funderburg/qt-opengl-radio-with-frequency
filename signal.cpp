@@ -2,7 +2,6 @@
 *
 *   Author: Kevin Funderburg
 *   File:   signal.cpp
-*   GUI - Summer 2019 - Texas State University
 *
 ***/
 
@@ -77,9 +76,7 @@ void Signal::draw()
 void Signal::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     draw();
-
     glFlush ();
 }
 

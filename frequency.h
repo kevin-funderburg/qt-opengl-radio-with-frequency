@@ -10,18 +10,27 @@
 
 #include <QtOpenGL/QGLWidget>
 
-class Frequency : public QGLWidget  {
-    Q_OBJECT
+class Frequency : public QGLWidget  
+{
+		Q_OBJECT
 
-public:
-    Frequency(QWidget *parent = 0);
-    ~Frequency();
+	public:
+		Frequency(QWidget *parent = 0);
+		~Frequency();
+		void setFrequency(int);
+		void setVolume(int);
 
-protected:
-    void initializeGL();
-    void resizeGL(int w, int h);    
-	void draw();
-	void paintGL();
+	private:
+		int f;			// frequency
+		int v;			// volume
+		double MIN_X;	// minimum x value
+		double MAX_X;	// max x value
+
+	protected:
+		void initializeGL();
+		void resizeGL(int w, int h);
+		void draw();
+		void paintGL();
 };
 
 #endif

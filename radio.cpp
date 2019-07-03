@@ -15,9 +15,11 @@
 #include <QWidget>
 #include <QString>
 #include <QLabel>
+#include <QDebug>
 
 #include "radio.h"
 #include "ranges.h"
+#include "frequency.h"
 
 LCDRange::LCDRange(QWidget *parent)
         : QWidget(parent)
@@ -63,18 +65,19 @@ void LCDRange::setRange(int minValue, int maxValue)
     slider->setRange(minValue, maxValue);
 }
 
+/*************** end of LCDRange ***************/
 
 DialRange::DialRange(QWidget *parent)
     : QWidget(parent)
 {
-    QLCDNumber *lcd = new QLCDNumber(2);
+    QLCDNumber *lcd = new QLCDNumber(3);
     lcd->setSegmentStyle(QLCDNumber::Flat);
 
     QDial *dial = new QDial;
     dial->setNotchesVisible(true);
-    dial->setMinimum(0);
-    dial->setMaximum(99);
-    dial->setValue(49);
+    dial->setMinimum(-50);
+    dial->setMaximum(50);
+    dial->setValue(0);
     /// Connect the dial's signal change to the LCD to output
     /// the dials value
     connect(dial, SIGNAL(valueChanged(int)),
@@ -86,6 +89,10 @@ DialRange::DialRange(QWidget *parent)
     setLayout(layout);
 }
 
+
+/*************** end of DialRange ***************/
+
+
 /// Class that creates a series of widgets organized into a
 /// radio
 Radio::Radio(QWidget *parent)
@@ -93,20 +100,27 @@ Radio::Radio(QWidget *parent)
 {
     // Quit
     QPushButton *quit = new QPushButton(tr("Exit"));
-    quit->setFont(QFont("Helvetica", 18, QFont::Bold));
+    quit->setFont(QFont("Helvetica", 15, QFont::Bold));
     // Connect the signal of the button click to the quit action
     connect(quit, SIGNAL(clicked()), qApp, SLOT(quit()));
 
     LCDRange *frequency = new LCDRange;
     frequency->setRange(1,100);
     frequency->setValue(45);
+    // Connect the signal change of the slider to the radio object itself
+    connect(frequency, SIGNAL(valueChanged(int)),
+            this, SIGNAL(freqChanged(int)));
+
     LCDRange *volume = new LCDRange;
     volume->setRange(0,5);
     volume->setValue(4);
+    // Connect the signal change of the slider to the radio object itself
+    connect(volume, SIGNAL(valueChanged(int)),
+            this, SIGNAL(volChanged(int)));
 
     QRadioButton *fm = new QRadioButton("FM");
     QRadioButton *am = new QRadioButton("AM");
-    am->toggle();
+    am->toggle();   // toggle AM button by default
     QGridLayout *grid = new QGridLayout;
     grid->setVerticalSpacing(2);
     // Iteratively add the widgets into desired locations
@@ -142,9 +156,9 @@ Radio::Radio(QWidget *parent)
     }
     // Add labels to the sliders so you can tell which slider does what
     QLabel *freqLbl = new QLabel("Frequency");
-    freqLbl->setIndent(70);
+    freqLbl->setIndent(70);     // center label
     QLabel *volLbl = new QLabel("Volume");
-    volLbl->setIndent(80);
+    volLbl->setIndent(80);      // center label
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(quit);
@@ -155,3 +169,4 @@ Radio::Radio(QWidget *parent)
     layout->addLayout(grid);
     setLayout(layout);
 }
+

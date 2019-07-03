@@ -3,8 +3,6 @@
 *   Author: Kevin Funderburg
 *   File:   globj.cpp
 *   
-*   GUI - Summer 2019 - Texas State University
-*
 ***/
 
 #include <QtGui/QtGui>
@@ -52,11 +50,6 @@ void GLobj::resizeGL( int w, int h )
     glMatrixMode(GL_MODELVIEW);
 
     //implicit call to paintGL after resized
-}
-
-void GLobj::ngon(int n)
-{
-
 }
 
 void GLobj::paintShapes()

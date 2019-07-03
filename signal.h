@@ -1,7 +1,7 @@
 /***
 *
 *	Author: Kevin Funderburg
-*	File: signal.h
+*	File: 	signal.h
 *
 ***/
 
@@ -14,9 +14,9 @@ class Signal : public QGLWidget  {
     Q_OBJECT
 
 private:
-	int ys[5];
-	int MAX_Y;
-	int MIN_Y;
+	int ys[5];	//y values
+	int MIN_Y;	//ortho min y value
+	int MAX_Y;	//ortho max y value
 
 public:
     Signal(QWidget *parent = 0);

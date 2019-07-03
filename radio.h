@@ -5,10 +5,16 @@
 
 class QGroupBox;
 
-class Radio: public QWidget
+class Radio : public QWidget
 {
-public:
-    Radio(QWidget *parent = 0);
+	Q_OBJECT
+
+	public:
+		Radio(QWidget *parent = 0);
+
+	signals:
+		void freqChanged(int freqVal);
+		void volChanged(int volVal);
 };
 
 
